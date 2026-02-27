@@ -1,0 +1,28 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "Linux-MinGW-x64",
+      "compilerPath": "/usr/bin/gcc",
+      "intelliSenseMode": "windows-gcc-x64",
+      "cStandard": "c17",
+      "cppStandard": "c++17",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "/var/run/host/usr/x86_64-w64-mingw32/include",
+        "/var/run/host/usr/share/mingw-w64/include",
+        "/var/run/host/usr/lib/gcc/x86_64-w64-mingw32/**/include"
+      ],
+      "defines": [
+        "_WIN32",
+        "WIN32",
+        "_WINDOWS",
+        "WINVER=0x0601",
+        "_WIN32_WINNT=0x0601"
+      ],
+      "compilerArgs": [
+        "--target=x86_64-w64-mingw32"
+      ]
+    }
+  ]
+}

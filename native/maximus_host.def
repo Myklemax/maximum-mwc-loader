@@ -1,0 +1,3 @@
+LIBRARY MaximusHost.dll
+EXPORTS
+  MaximusEntry

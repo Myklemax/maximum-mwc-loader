@@ -1,0 +1,25 @@
+LIBRARY winmm.dll
+EXPORTS
+  waveOutPrepareHeader
+  waveInReset
+  waveInClose
+  waveInOpen
+  waveInStart
+  waveOutGetPosition
+  waveInGetDevCapsW
+  waveOutWrite
+  waveOutUnprepareHeader
+  waveOutOpen
+  waveOutClose
+  waveOutGetDevCapsW
+  waveOutGetDevCapsA
+  waveOutGetNumDevs
+  waveInGetNumDevs
+  timeBeginPeriod
+  timeEndPeriod
+  timeGetTime
+  waveInGetDevCapsA
+  waveInUnprepareHeader
+  waveInPrepareHeader
+  waveOutReset
+  waveInAddBuffer

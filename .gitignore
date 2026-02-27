@@ -1,0 +1,19 @@
+# Compiled DLLs (built locally, not checked in)
+native/*.dll
+native/*.o
+native/*.a
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Runtime logs and debug files
+maximus.log
+launch_debug.log
+no_terminal.txt
+
+# VS Code workspace-local settings (keep c_cpp_properties for IntelliSense)
+.vscode/settings.json
+.vscode/launch.json
+.vscode/tasks.json
