@@ -101,8 +101,32 @@ fi
 
 python3 mwc_loader.py setup --game-path "$GAME_PATH" --no-run
 
+# Install autostart entry for the log daemon
+AUTOSTART_DIR="$HOME/.config/autostart"
+mkdir -p "$AUTOSTART_DIR"
+cat > "$AUTOSTART_DIR/maximus-daemon.desktop" << DESKTOP
+[Desktop Entry]
+Type=Application
+Name=Maximus Log Daemon
+Comment=Watches for My Winter Car maximus.log and opens the live log viewer
+Exec=bash -c 'bash "${ROOT_DIR}/maximus_daemon.sh" &'
+Hidden=false
+NoDisplay=false
+X-GNOME-Autostart-enabled=true
+DESKTOP
+log "autostart entry installed → $AUTOSTART_DIR/maximus-daemon.desktop"
+
+# Start daemon now if not already running
+if ! pgrep -f maximus_daemon.sh >/dev/null 2>&1; then
+    setsid bash "$ROOT_DIR/maximus_daemon.sh" > /tmp/maximus_daemon.out 2>&1 &
+    log "log daemon started (pid $!)"
+else
+    log "log daemon already running"
+fi
+
 log "installed successfully"
-log "tip: for stronger hook loading, Steam Launch Options: WINEDLLOVERRIDES=winmm=n,b %command%"
+log "Steam Launch Options:"
+log "  WINEDLLOVERRIDES=winmm=n,b \"${ROOT_DIR}/launch_maximus.sh\" %command%"
 
 if [[ $RUN_AFTER_INSTALL -eq 1 ]]; then
   log "launching game..."
