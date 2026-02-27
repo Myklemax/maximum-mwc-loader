@@ -1,4 +1,4 @@
-# Maximus — MWC Loader
+# Maximum — MWC Loader
 
 A mod loader  hook framework for My Winter Car on Linux Steam, + Proton
 
