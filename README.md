@@ -33,14 +33,6 @@ sudo pacman -S mingw-w64-gcc     # Arch
 
 
 
-# Quick start
-
-# 1. Clone
-
-bash
-git clone https://github.com/YOUR_USERNAME/maximus-mwc-loader.git
-cd maximus-mwc-loader
-
 
 ## 2. Install
 
