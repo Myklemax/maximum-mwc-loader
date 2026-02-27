@@ -23,10 +23,57 @@ static void log_msg(const char *msg) {
     CloseHandle(h);
 }
 
-// Called by winmm proxy after game starts — put mod logic here
+// Scan <game_dir>\mods\ for *.dll files, load each one,
+// and call MaximusModInit() if the DLL exports it.
+static void load_mods(void) {
+    char pattern[MAX_PATH + 16];
+    lstrcpyA(pattern, g_module_dir);
+    lstrcatA(pattern, "\\mods\\*.dll");
+
+    WIN32_FIND_DATAA fd;
+    HANDLE hfind = FindFirstFileA(pattern, &fd);
+    if (hfind == INVALID_HANDLE_VALUE) {
+        log_msg("[mods] mods folder empty or not found");
+        return;
+    }
+
+    char mod_path[MAX_PATH + 16];
+    char msg[MAX_PATH + 64];
+    do {
+        if (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) continue;
+
+        lstrcpyA(mod_path, g_module_dir);
+        lstrcatA(mod_path, "\\mods\\");
+        lstrcatA(mod_path, fd.cFileName);
+
+        HMODULE hmod = LoadLibraryA(mod_path);
+        if (!hmod) {
+            lstrcpyA(msg, "[mods] FAILED to load: ");
+            lstrcatA(msg, fd.cFileName);
+            log_msg(msg);
+            continue;
+        }
+
+        typedef void (*ModInit_t)(void);
+        ModInit_t init = (ModInit_t)(void *)GetProcAddress(hmod, "MaximusModInit");
+        if (init) {
+            init();
+            lstrcpyA(msg, "[mods] loaded: ");
+        } else {
+            lstrcpyA(msg, "[mods] loaded (no MaximusModInit): ");
+        }
+        lstrcatA(msg, fd.cFileName);
+        log_msg(msg);
+    } while (FindNextFileA(hfind, &fd));
+
+    FindClose(hfind);
+}
+
+// Called by winmm proxy after game starts
 void MaximusEntry(void) {
     log_msg("[maximus] MaximusHost loaded");
     log_msg("[maximus] ready — hook is running");
+    load_mods();
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinst, DWORD reason, LPVOID reserved) {

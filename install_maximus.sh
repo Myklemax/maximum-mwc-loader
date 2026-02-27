@@ -101,6 +101,10 @@ fi
 
 python3 mwc_loader.py setup --game-path "$GAME_PATH" --no-run
 
+# Create mods folder in game directory
+mkdir -p "$GAME_PATH/mods"
+log "mods folder ready → $GAME_PATH/mods"
+
 # Install autostart entry for the log daemon
 AUTOSTART_DIR="$HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"

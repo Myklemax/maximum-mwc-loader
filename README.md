@@ -82,18 +82,49 @@ All commands accept `--game-path "/path/to/My Winter Car"` to override auto-dete
 
 
 
-## Adding mod code
+## Mods folder
 
-Edit `native/maximus_host.c` → `MaximusEntry()`:
+After install, a `mods/` folder is created inside the game directory:
 
-c
-void MaximusEntry(void) {
-    log_msg("[maximus] MaximusHost loaded");
-    log_msg("[mymod] MyMod v1.0 loaded");  // add your code here
+```
+My Winter Car/
+  winmm.dll          ← Maximus proxy
+  MaximusHost.dll    ← Maximus host
+  mods/
+    MyMod.dll        ← drop your plugin here
+    AnotherMod.dll
+```
+
+Drop any `.dll` plugin into `mods/`. On every game launch, Maximus scans the folder and loads each DLL automatically. If the DLL exports a `MaximusModInit` function it will be called, then the result is written to `maximus.log`:
+
+```
+[mods] loaded: MyMod.dll
+[mods] loaded (no MaximusModInit): SomeDll.dll
+[mods] FAILED to load: BrokenMod.dll
+```
+
+### Writing a plugin
+
+A minimal plugin only needs one exported function:
+
+```c
+// mymod.c  —  compile with mingw-w64
+#include <windows.h>
+
+__declspec(dllexport) void MaximusModInit(void) {
+    // your mod code runs here at game start
+    OutputDebugStringA("[mymod] hello from MyMod!\n");
 }
+```
 
+```bash
+x86_64-w64-mingw32-gcc -shared -o MyMod.dll mymod.c
+# copy MyMod.dll into  "My Winter Car/mods/"
+```
 
-Then rebuild and reinstall:
+## Adding core code
+
+To modify the host itself, edit `native/maximus_host.c` → `MaximusEntry()`, then rebuild:
 
 bash
 ./install_maximus.sh

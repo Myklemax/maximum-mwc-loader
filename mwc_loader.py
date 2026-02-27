@@ -119,7 +119,11 @@ def install_maximus(game_path: Path) -> None:
 
     shutil.copy2(proxy_src, game_path / "winmm.dll")
     shutil.copy2(host_src, game_path / "MaximusHost.dll")
+
+    mods_dir = game_path / "mods"
+    mods_dir.mkdir(exist_ok=True)
     print(f"Installed Maximus to {game_path}")
+    print(f"Mods folder: {mods_dir}")
 
 
 def status_maximus(game_path: Path) -> None:
@@ -145,6 +149,17 @@ def status_maximus(game_path: Path) -> None:
         if (game_path / legacy).exists():
             print(f"WARNING: {legacy} found — remove it (it will crash the game)")
     print(f"maximus.log: {'FOUND' if log.exists() else 'NOT FOUND YET'}")
+    mods_dir = game_path / "mods"
+    if mods_dir.exists():
+        mods = sorted(mods_dir.glob("*.dll"))
+        if mods:
+            print(f"mods ({len(mods)}):")
+            for m in mods:
+                print(f"  {m.name}")
+        else:
+            print("mods folder: empty (drop .dll plugins here)")
+    else:
+        print("mods folder: MISSING (run install-maximus)")
 
 
 def disable_loader(game_path: Path) -> None:
