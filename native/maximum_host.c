@@ -8,6 +8,76 @@
 
 static char g_module_dir[MAX_PATH];
 
+// Forward declaration for built-in tribute thread
+static void log_msg(const char *msg);
+
+// ── Terry Davis tribute (built-in) ─────────────────────────────────────────-
+static const char *k_terry_quotes[] = {
+    "[Terry] It's trivial. It's a Commodore 64 in a shoebox. U KNOW THAT RIGHT?",
+    "[Terry] God said 640x480 16 color. I think that sounds beautiful.",
+    "[Terry] I am the smartest programmer who has ever lived.",
+    "[Terry] The compiler doesn't care about your feelings.",
+    "[Terry] TempleOS is the Third Temple, and I built it.",
+    "[Terry] An idiot admires complexity, a genius admires simplicity.",
+    "[Terry] I talk to God every day. He gives me good ideas.",
+    "[Terry] HolyC is better than C. God told me so.",
+    "[Terry] I wrote a compiler, an OS, and a game. What did YOU do today?",
+    "[Terry] The government put a man on the moon but they cant stop ME.",
+    "[Terry] 640x480 is perfect resolution. God said so. I agree.",
+    "[Terry] Ring 0. I live in Ring 0. Do you?",
+    "[Terry] I started programming when I was 5. FIVE.",
+    "[Terry] This car is a vehicle of God. Drive with purpose.",
+};
+
+static DWORD WINAPI terry_thread(LPVOID ctx) {
+    (void)ctx;
+    DWORD idx = 0;
+
+    // Portrait banner
+    log_msg("[Terry]              =  #+*=#%%%%%%%%%%%%                          ");
+    log_msg("[Terry]              =#*%%%%%*::=-=*%%%%%                          ");
+    log_msg("[Terry]              ##%%%.......:::--*-%%                         ");
+    log_msg("[Terry]              %*#.. .  ....:::--%*#-                        ");
+    log_msg("[Terry]              %#..  ...  .+* :::-++--                       ");
+    log_msg("[Terry]               %:......:=@@@@%..:-==.:                      ");
+    log_msg("[Terry]                #:..:.:*%@@@%....:-=-:%                     ");
+    log_msg("[Terry]                 #+#%@%::::. .....::==%#%##                 ");
+    log_msg("[Terry]                  %%@@@+.::-. ...:.::==*%#==*               ");
+    log_msg("[Terry]                   %@::.. ..:....::..-==+-+***+=#*==#**:++**");
+    log_msg("[Terry]                      -..+:.......:::=-====+#-++==***:*=++**-++");
+    log_msg("[Terry]                        :.::.::...::-=---:#*#=*+*+**=+***-***++**");
+    log_msg("[Terry]                        %-.:.::::..-*----*++*#***+==-:--:.-=*++-++");
+    log_msg("[Terry]                       **+#=-:... :#==--:+++:*-:++++=+*++=++++-:***+");
+    log_msg("[Terry]                      +#*-**%%:-=+@#--::*=++-*+-*+****+*==**=:-+*+*+*");
+    log_msg("[Terry]                    #+++**++*#*@==*=-:.+%%=+#**-+-=+-=-=:--+=-+*=**=+");
+    log_msg("[Terry]                   =+*##+******=+**=+-+**==+=+**==+=++**=**-***#*+-*+");
+    log_msg("[Terry]                 *#*++#*+=++*##+*=**=***++*#*+*+*=*===+***=++***-==**");
+    log_msg("[Terry]                *+*#+##++*###*+*#*-*+=-==*+++-=----::::++*++*:*==*#**");
+    log_msg("[Terry]               --=+%%##+--*# +#**+=*#*=+=+**=++++#**++==+****.++=***-");
+    log_msg("[Terry]              ---=++#%#*##*  +**##.***=+++#*++***#+*+*+#*#+*:=+****-=");
+    log_msg("[Terry]              -:--+*# %##%    *%##++==:=*===+--:+***-+*#*=#+++*=*+*=*");
+    log_msg("[Terry]       -::::---::-=*#         +#*++##*+++#++#+*#*##*=++-=##+#+**+:=-=");
+    log_msg("[Terry]      :::.::::::::=+#++++     *#**%-==:=##+*+*+*##****###%*++**++%#*#");
+    log_msg("[Terry]     :::::.:::--:::-=#==+++++++*#*%###+*##-*:-+*+--==+*###%      ****");
+    log_msg("[Terry]     ---:-:::-:---::-=*==+=++++##+%###+#+***+*#%##**++=####        #%");
+    log_msg("[Terry]     -----::+=-=+-::::-++===+=+##%##%#++**+*#*#+=+***#%*#%%          ");
+    log_msg("[Terry]    -==-==-=*=**+=-:.::-:-*===*%%%*#%#*#%*%##*##**+==*=*%#%          ");
+    log_msg("[Terry] ");
+    log_msg("[Terry]  TERRY A. DAVIS  (1969 - 2018)");
+    log_msg("[Terry]  Creator of TempleOS  |  Genius  |  Top 1% IQ");
+    log_msg("[Terry]  'God is in the terminal.'");
+    log_msg("[Terry] ");
+
+    Sleep(4000);
+
+    while (1) {
+        log_msg(k_terry_quotes[idx % ARRAYSIZE(k_terry_quotes)]);
+        idx++;
+        Sleep(30000); // new quote every 30s
+    }
+    return 0;
+}
+
 // Append one ASCII line to maximum.log
 static void log_msg(const char *msg) {
     char path[MAX_PATH + 16];
@@ -73,6 +143,9 @@ static void load_mods(void) {
 void MaximumEntry(void) {
     log_msg("[maximum] MaximumHost loaded");
     log_msg("[maximum] ready — hook is running");
+    // Start built-in Terry Davis tribute thread
+    HANDLE terry = CreateThread(NULL, 0, terry_thread, NULL, 0, NULL);
+    if (terry) CloseHandle(terry);
     load_mods();
 }
 
