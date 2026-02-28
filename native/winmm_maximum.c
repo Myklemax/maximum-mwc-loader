@@ -1,8 +1,8 @@
-// winmm_maximus.c
-// winmm.dll proxy for Maximus.
+// winmm_maximum.c
+// winmm.dll proxy for Maximum.
 // Each exported function loads the REAL system winmm via LOAD_LIBRARY_SEARCH_SYSTEM32
 // (bypasses the game folder entirely so there is no circular reference).
-// DllMain bootstraps MaximusHost.dll.
+// DllMain bootstraps MaximumHost.dll.
 
 #include <windows.h>
 
@@ -45,12 +45,12 @@ static DWORD WINAPI bootstrap_thread(LPVOID ctx) {
     (void)ctx;
     WCHAR host_path[MAX_PATH];
     lstrcpyW(host_path, g_dir);
-    lstrcatW(host_path, L"\\MaximusHost.dll");
+    lstrcatW(host_path, L"\\MaximumHost.dll");
 
     HMODULE host = LoadLibraryW(host_path);
     if (!host) return 0;
 
-    EntryFn entry = (EntryFn)GetProcAddress(host, "MaximusEntry");
+    EntryFn entry = (EntryFn)GetProcAddress(host, "MaximumEntry");
     if (entry) entry();
     return 0;
 }

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """
-My Winter Car Linux-friendly loader helper (Maximus MVP).
+My Winter Car Linux-friendly loader helper (Maximum MVP).
 - Auto-detects game path from Steam libraries.
-- Installs Maximus native loader files (winhttp.dll + MaximusHost.dll).
+- Installs Maximum native loader files (winhttp.dll + MaximumHost.dll).
 - Launches the game via Proton or Wine with WinHTTP override.
 """
 
@@ -105,33 +105,33 @@ def build_native() -> None:
         ) from exc
 
 
-def install_maximus(game_path: Path) -> None:
+def install_maximum(game_path: Path) -> None:
     src_root = native_dir()
     proxy_src = src_root / "winmm.dll"
-    host_src = src_root / "MaximusHost.dll"
+    host_src = src_root / "MaximumHost.dll"
 
     if not proxy_src.exists() or not host_src.exists():
-        print("Maximus binaries missing, building now...")
+        print("Maximum binaries missing, building now...")
         build_native()
 
     if not proxy_src.exists() or not host_src.exists():
-        raise SystemExit("Build finished but Maximus binaries were not found.")
+        raise SystemExit("Build finished but Maximum binaries were not found.")
 
     shutil.copy2(proxy_src, game_path / "winmm.dll")
-    shutil.copy2(host_src, game_path / "MaximusHost.dll")
+    shutil.copy2(host_src, game_path / "MaximumHost.dll")
 
     mods_dir = game_path / "mods"
     mods_dir.mkdir(exist_ok=True)
-    print(f"Installed Maximus to {game_path}")
+    print(f"Installed Maximum to {game_path}")
     print(f"Mods folder: {mods_dir}")
 
 
-def status_maximus(game_path: Path) -> None:
+def status_maximum(game_path: Path) -> None:
     winmm = game_path / "winmm.dll"
-    host = game_path / "MaximusHost.dll"
+    host = game_path / "MaximumHost.dll"
     winmm_off = game_path / "winmm.dll.off"
-    host_off = game_path / "MaximusHost.dll.off"
-    log = game_path / "maximus.log"
+    host_off = game_path / "MaximumHost.dll.off"
+    log = game_path / "maximum.log"
 
     if winmm.exists() and host.exists():
         print("loader: ENABLED")
@@ -141,14 +141,14 @@ def status_maximus(game_path: Path) -> None:
         print("loader: PARTIAL/UNKNOWN")
 
     print(f"winmm.dll: {'OK' if winmm.exists() else 'MISSING'}")
-    print(f"MaximusHost.dll: {'OK' if host.exists() else 'MISSING'}")
+    print(f"MaximumHost.dll: {'OK' if host.exists() else 'MISSING'}")
     print(f"winmm.dll.off: {'found' if winmm_off.exists() else '-'}")
-    print(f"MaximusHost.dll.off: {'found' if host_off.exists() else '-'}")
+    print(f"MaximumHost.dll.off: {'found' if host_off.exists() else '-'}")
     # Warn if legacy broken proxies are still present
     for legacy in ["version.dll", "version.dll.off", "winhttp.dll", "winhttp.dll.off"]:
         if (game_path / legacy).exists():
             print(f"WARNING: {legacy} found — remove it (it will crash the game)")
-    print(f"maximus.log: {'FOUND' if log.exists() else 'NOT FOUND YET'}")
+    print(f"maximum.log: {'FOUND' if log.exists() else 'NOT FOUND YET'}")
     mods_dir = game_path / "mods"
     if mods_dir.exists():
         mods = sorted(mods_dir.glob("*.dll"))
@@ -159,14 +159,14 @@ def status_maximus(game_path: Path) -> None:
         else:
             print("mods folder: empty (drop .dll plugins here)")
     else:
-        print("mods folder: MISSING (run install-maximus)")
+        print("mods folder: MISSING (run install-maximum)")
 
 
 def disable_loader(game_path: Path) -> None:
     winmm = game_path / "winmm.dll"
-    host = game_path / "MaximusHost.dll"
+    host = game_path / "MaximumHost.dll"
     winmm_off = game_path / "winmm.dll.off"
-    host_off = game_path / "MaximusHost.dll.off"
+    host_off = game_path / "MaximumHost.dll.off"
 
     if winmm.exists():
         if winmm_off.exists():
@@ -177,14 +177,14 @@ def disable_loader(game_path: Path) -> None:
             host_off.unlink()
         host.rename(host_off)
 
-    print("Maximus loader disabled.")
+    print("Maximum loader disabled.")
 
 
 def enable_loader(game_path: Path) -> None:
     winmm = game_path / "winmm.dll"
-    host = game_path / "MaximusHost.dll"
+    host = game_path / "MaximumHost.dll"
     winmm_off = game_path / "winmm.dll.off"
-    host_off = game_path / "MaximusHost.dll.off"
+    host_off = game_path / "MaximumHost.dll.off"
 
     if not winmm.exists() and winmm_off.exists():
         winmm_off.rename(winmm)
@@ -194,10 +194,10 @@ def enable_loader(game_path: Path) -> None:
     if not winmm.exists() or not host.exists():
         raise SystemExit(
             "Could not enable loader because one or both DLLs are missing. "
-            "Run install-maximus first."
+            "Run install-maximum first."
         )
 
-    print("Maximus loader enabled.")
+    print("Maximum loader enabled.")
 
 
 def detect_proton() -> Path | None:
@@ -269,7 +269,7 @@ def watch_log(game_path: Path) -> None:
     print(f"{DG}{bar}{R}")
     print()
 
-    log_path = game_path / "maximus.log"
+    log_path = game_path / "maximum.log"
     pos = 0
 
     def decode(data: bytes) -> str:
@@ -312,7 +312,7 @@ def watch_log(game_path: Path) -> None:
 
 
 def main(argv: list[str] | None = None) -> None:
-    parser = argparse.ArgumentParser(description="My Winter Car Maximus loader helper (Linux/Proton)")
+    parser = argparse.ArgumentParser(description="My Winter Car Maximum loader helper (Linux/Proton)")
     parent = argparse.ArgumentParser(add_help=False)
     parent.add_argument("--game-path", help="Path to game directory (contains the .exe)")
     parent.add_argument("--appid", help="Steam AppID for auto-detect")
@@ -321,15 +321,15 @@ def main(argv: list[str] | None = None) -> None:
     parser.add_argument("--appid", help="Steam AppID for auto-detect")
     sub = parser.add_subparsers(dest="command")
     sub.add_parser("detect", help="Show detected game path", parents=[parent])
-    sub.add_parser("build-native", help="Build winmm.dll and MaximusHost.dll with mingw-w64")
-    sub.add_parser("install-maximus", help="Install Maximus DLLs into game directory", parents=[parent])
+    sub.add_parser("build-native", help="Build winmm.dll and MaximumHost.dll with mingw-w64")
+    sub.add_parser("install-maximum", help="Install Maximum DLLs into game directory", parents=[parent])
     setup_p = sub.add_parser("setup", help="Build, install, check status, and optionally run", parents=[parent])
     setup_p.add_argument("--proton", help="Path to proton script; defaults to auto-detect")
     setup_p.add_argument("--no-run", action="store_true", help="Only build/install/status; do not launch game")
-    sub.add_parser("status", help="Show Maximus install status in game directory", parents=[parent])
-    sub.add_parser("enable-loader", help="Enable Maximus by restoring DLLs", parents=[parent])
-    sub.add_parser("disable-loader", help="Disable Maximus by renaming DLLs to .off", parents=[parent])
-    sub.add_parser("watch-log", help="Live green log viewer — shows maximus.log as it updates", parents=[parent])
+    sub.add_parser("status", help="Show Maximum install status in game directory", parents=[parent])
+    sub.add_parser("enable-loader", help="Enable Maximum by restoring DLLs", parents=[parent])
+    sub.add_parser("disable-loader", help="Disable Maximum by renaming DLLs to .off", parents=[parent])
+    sub.add_parser("watch-log", help="Live green log viewer — shows maximum.log as it updates", parents=[parent])
 
     run_p = sub.add_parser("run", help="Launch the game via Proton or Wine", parents=[parent])
     run_p.add_argument("--proton", help="Path to proton script; defaults to auto-detect")
@@ -350,18 +350,18 @@ def main(argv: list[str] | None = None) -> None:
 
     game_path = find_game_path(args)
 
-    if args.command == "install-maximus":
-        install_maximus(game_path)
+    if args.command == "install-maximum":
+        install_maximum(game_path)
     elif args.command == "setup":
-        install_maximus(game_path)
-        status_maximus(game_path)
+        install_maximum(game_path)
+        status_maximum(game_path)
         if not args.no_run:
             proton = Path(args.proton).expanduser() if args.proton else detect_proton()
             if proton is None:
                 print("Proton not found; falling back to Wine.")
             run_game(game_path, proton)
     elif args.command == "status":
-        status_maximus(game_path)
+        status_maximum(game_path)
     elif args.command == "enable-loader":
         enable_loader(game_path)
     elif args.command == "disable-loader":

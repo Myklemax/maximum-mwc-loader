@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "Linux-MinGW-x64",
-      "compilerPath": "/usr/bin/gcc",
+      "compilerPath": "/var/run/host/usr/bin/x86_64-w64-mingw32-gcc",
       "intelliSenseMode": "windows-gcc-x64",
       "cStandard": "c17",
       "cppStandard": "c++17",
@@ -20,9 +20,7 @@
         "WINVER=0x0601",
         "_WIN32_WINNT=0x0601"
       ],
-      "compilerArgs": [
-        "--target=x86_64-w64-mingw32"
-      ]
+      "compilerArgs": []
     }
   ]
 }

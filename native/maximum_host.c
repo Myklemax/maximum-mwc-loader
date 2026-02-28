@@ -1,4 +1,4 @@
-// maximus_host.c — loaded by winmm proxy, runs MaximusEntry()
+// maximum_host.c — loaded by winmm proxy, runs MaximumEntry()
 // Writes a plain ASCII log (UTF-8) so it can be read by any tool.
 #include <windows.h>
 
@@ -8,11 +8,11 @@
 
 static char g_module_dir[MAX_PATH];
 
-// Append one ASCII line to maximus.log
+// Append one ASCII line to maximum.log
 static void log_msg(const char *msg) {
     char path[MAX_PATH + 16];
     lstrcpyA(path, g_module_dir);
-    lstrcatA(path, "\\maximus.log");
+    lstrcatA(path, "\\maximum.log");
     HANDLE h = CreateFileA(path, GENERIC_WRITE, FILE_SHARE_READ, NULL,
                            OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (h == INVALID_HANDLE_VALUE) return;
@@ -24,7 +24,7 @@ static void log_msg(const char *msg) {
 }
 
 // Scan <game_dir>\mods\ for *.dll files, load each one,
-// and call MaximusModInit() if the DLL exports it.
+// and call MaximumModInit() if the DLL exports it.
 static void load_mods(void) {
     char pattern[MAX_PATH + 16];
     lstrcpyA(pattern, g_module_dir);
@@ -55,12 +55,12 @@ static void load_mods(void) {
         }
 
         typedef void (*ModInit_t)(void);
-        ModInit_t init = (ModInit_t)(void *)GetProcAddress(hmod, "MaximusModInit");
+        ModInit_t init = (ModInit_t)(void *)GetProcAddress(hmod, "MaximumModInit");
         if (init) {
             init();
             lstrcpyA(msg, "[mods] loaded: ");
         } else {
-            lstrcpyA(msg, "[mods] loaded (no MaximusModInit): ");
+            lstrcpyA(msg, "[mods] loaded (no MaximumModInit): ");
         }
         lstrcatA(msg, fd.cFileName);
         log_msg(msg);
@@ -70,9 +70,9 @@ static void load_mods(void) {
 }
 
 // Called by winmm proxy after game starts
-void MaximusEntry(void) {
-    log_msg("[maximus] MaximusHost loaded");
-    log_msg("[maximus] ready — hook is running");
+void MaximumEntry(void) {
+    log_msg("[maximum] MaximumHost loaded");
+    log_msg("[maximum] ready — hook is running");
     load_mods();
 }
 

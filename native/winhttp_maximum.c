@@ -1,15 +1,15 @@
-// version_maximus.c
-// Minimal version.dll proxy bootstrap for Maximus.
-// VERSION exports are forwarded by version.def; this DLL only runs bootstrap logic.
+// winhttp_maximum.c
+// Minimal winhttp.dll proxy bootstrap for Maximum.
+// WinHTTP exports are forwarded by winhttp.def; this DLL only runs bootstrap logic.
 
 #if defined(__has_include)
 #  if __has_include(<windows.h>)
 #    include <windows.h>
-#    define MAXIMUS_HAVE_WINDOWS_H 1
+#    define MAXIMUM_HAVE_WINDOWS_H 1
 #  endif
 #endif
 
-#ifndef MAXIMUS_HAVE_WINDOWS_H
+#ifndef MAXIMUM_HAVE_WINDOWS_H
 #include <stddef.h>
 #include <wchar.h>
 
@@ -24,7 +24,7 @@ typedef int BOOL;
 typedef wchar_t WCHAR;
 typedef const WCHAR *LPCWSTR;
 
-typedef DWORD (*MaximusThreadStart)(LPVOID);
+typedef DWORD (*MaximumThreadStart)(LPVOID);
 typedef void (*EntryFn)(void);
 
 #define TRUE 1
@@ -51,7 +51,7 @@ extern __declspec(dllimport) DWORD WINAPI SetFilePointer(HANDLE, long, long *, D
 extern __declspec(dllimport) BOOL WINAPI CloseHandle(HANDLE);
 extern __declspec(dllimport) DWORD WINAPI GetModuleFileNameW(HINSTANCE, WCHAR *, DWORD);
 extern __declspec(dllimport) BOOL WINAPI DisableThreadLibraryCalls(HINSTANCE);
-extern __declspec(dllimport) HANDLE WINAPI CreateThread(LPVOID, size_t, MaximusThreadStart, LPVOID, DWORD, DWORD *);
+extern __declspec(dllimport) HANDLE WINAPI CreateThread(LPVOID, size_t, MaximumThreadStart, LPVOID, DWORD, DWORD *);
 extern __declspec(dllimport) HANDLE WINAPI LoadLibraryW(LPCWSTR);
 extern __declspec(dllimport) LPVOID WINAPI GetProcAddress(HANDLE, const char *);
 
@@ -71,7 +71,7 @@ static WCHAR g_module_dir[MAX_PATH] = {0};
 static void log_msg(const WCHAR *msg) {
     WCHAR path[MAX_PATH];
     lstrcpyW(path, g_module_dir);
-    lstrcatW(path, L"\\maximus.log");
+    lstrcatW(path, L"\\maximum.log");
     HANDLE h = CreateFileW(path, GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
     if (h == INVALID_HANDLE_VALUE) return;
     SetFilePointer(h, 0, NULL, FILE_END);
@@ -85,17 +85,17 @@ static DWORD WINAPI bootstrap_thread(LPVOID context) {
     (void)context;
     WCHAR host_path[MAX_PATH];
     lstrcpyW(host_path, g_module_dir);
-    lstrcatW(host_path, L"\\MaximusHost.dll");
+    lstrcatW(host_path, L"\\MaximumHost.dll");
 
     HANDLE host = LoadLibraryW(host_path);
     if (!host) {
-        log_msg(L"[maximus] MaximusHost.dll not found; skipping bootstrap");
+        log_msg(L"[maximum] MaximumHost.dll not found; skipping bootstrap");
         return 0;
     }
 
-    EntryFn entry = (EntryFn)GetProcAddress(host, "MaximusEntry");
+    EntryFn entry = (EntryFn)GetProcAddress(host, "MaximumEntry");
     if (!entry) {
-        log_msg(L"[maximus] MaximusEntry not found in host");
+        log_msg(L"[maximum] MaximumEntry not found in host");
         return 0;
     }
 

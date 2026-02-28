@@ -8,7 +8,7 @@ GREEN='\033[1;32m'
 RED='\033[1;31m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
-TAG='✦ MAXIMUS ✦'
+TAG='✦ MAXIMUM ✦'
 
 log() {
   echo -e "${GREEN}${TAG}${NC} $*"
@@ -28,10 +28,10 @@ RUN_AFTER_INSTALL=0
 
 print_help() {
   cat <<'EOF'
-Maximus installer (Linux)
+Maximum installer (Linux)
 
 Usage:
-  ./install_maximus.sh [--game-path PATH] [--appid ID] [--run]
+  ./install_maximum.sh [--game-path PATH] [--appid ID] [--run]
 
 Options:
   --game-path PATH   Game install directory (contains My Winter Car exe)
@@ -108,21 +108,21 @@ log "mods folder ready → $GAME_PATH/mods"
 # Install autostart entry for the log daemon
 AUTOSTART_DIR="$HOME/.config/autostart"
 mkdir -p "$AUTOSTART_DIR"
-cat > "$AUTOSTART_DIR/maximus-daemon.desktop" << DESKTOP
+cat > "$AUTOSTART_DIR/maximum-daemon.desktop" << DESKTOP
 [Desktop Entry]
 Type=Application
-Name=Maximus Log Daemon
-Comment=Watches for My Winter Car maximus.log and opens the live log viewer
-Exec=bash -c 'bash "${ROOT_DIR}/maximus_daemon.sh" &'
+Name=Maximum Log Daemon
+Comment=Watches for My Winter Car maximum.log and opens the live log viewer
+Exec=bash -c 'bash "${ROOT_DIR}/maximum_daemon.sh" &'
 Hidden=false
 NoDisplay=false
 X-GNOME-Autostart-enabled=true
 DESKTOP
-log "autostart entry installed → $AUTOSTART_DIR/maximus-daemon.desktop"
+log "autostart entry installed → $AUTOSTART_DIR/maximum-daemon.desktop"
 
 # Start daemon now if not already running
-if ! pgrep -f maximus_daemon.sh >/dev/null 2>&1; then
-    setsid bash "$ROOT_DIR/maximus_daemon.sh" > /tmp/maximus_daemon.out 2>&1 &
+if ! pgrep -f maximum_daemon.sh >/dev/null 2>&1; then
+    setsid bash "$ROOT_DIR/maximum_daemon.sh" > /tmp/maximum_daemon.out 2>&1 &
     log "log daemon started (pid $!)"
 else
     log "log daemon already running"
@@ -130,7 +130,7 @@ fi
 
 log "installed successfully"
 log "Steam Launch Options:"
-log "  WINEDLLOVERRIDES=winmm=n,b \"${ROOT_DIR}/launch_maximus.sh\" %command%"
+log "  WINEDLLOVERRIDES=winmm=n,b \"${ROOT_DIR}/launch_maximum.sh\" %command%"
 
 if [[ $RUN_AFTER_INSTALL -eq 1 ]]; then
   log "launching game..."

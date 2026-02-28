@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # setup_requirements.sh
-# Installs everything needed to build and run Maximus MWC Loader.
+# Installs everything needed to build and run Maximum MWC Loader.
 # Supports Ubuntu, Debian, Linux Mint, Arch, Fedora.
 # Run once on a fresh PC: bash setup_requirements.sh
 
@@ -30,7 +30,7 @@ banner() {
     echo
 }
 
-log()  { echo -e "${G}[maximus]${X} $*"; }
+log()  { echo -e "${G}[maximum]${X} $*"; }
 warn() { echo -e "${Y}[warning]${X} $*"; }
 die()  { echo -e "${R}[error]${X} $*"; exit 1; }
 
@@ -106,12 +106,12 @@ if [[ $PASS -eq 1 ]]; then
     echo -e "${G}${B}  All requirements installed successfully!${X}"
     echo
     echo -e "${G}  Next steps:${X}"
-    echo -e "${G}    1. Run the Maximus installer:${X}"
-    echo -e "${G}       bash install_maximus.sh${X}"
+    echo -e "${G}    1. Run the Maximum installer:${X}"
+    echo -e "${G}       bash install_maximum.sh${X}"
     echo -e "${G}    2. Set Steam Launch Options:${X}"
-    echo -e "${G}       WINEDLLOVERRIDES=winmm=n,b \"/path/to/launch_maximus.sh\" %command%${X}"
+    echo -e "${G}       WINEDLLOVERRIDES=winmm=n,b \"/path/to/launch_maximum.sh\" %command%${X}"
     echo -e "${G}    3. Start the log daemon:${X}"
-    echo -e "${G}       bash maximus_daemon.sh &${X}"
+    echo -e "${G}       bash maximum_daemon.sh &${X}"
 else
     warn "Some packages may not have installed correctly. Check the output above."
 fi

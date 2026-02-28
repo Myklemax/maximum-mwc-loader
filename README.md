@@ -7,14 +7,14 @@ A mod loader  hook framework for My Winter Car on Linux Steam, + Proton
 # How it works
 
 Steam launches game
-launch_maximus.sh (Steam Launch Options wrapper)
+launch_maximum.sh (Steam Launch Options wrapper)
 game loads winmm.dll (our proxy, from game folder)
-winmm_maximus.c: DllMain fires, spawns thread
-loads MaximusHost.dll
-calls MaximusEntry() ← put mod code here
-writes maximus.log
-maximus_daemon.sh detects log
-opens ✦ MAXIMUS LOG ✦ terminal
+winmm_maximum.c: DllMain fires, spawns thread
+loads MaximumHost.dll
+calls MaximumEntry() ← put mod code here
+writes maximum.log
+maximum_daemon.sh detects log
+opens ✦ MAXIMUM LOG ✦ terminal
 
 
 
@@ -37,7 +37,7 @@ sudo pacman -S mingw-w64-gcc     # Arch
 ## 2. Install
 
 bash
-./install_maximus.sh
+./install_maximum.sh
 
 
 Builds the DLLs and copies them into your My Winter Car game folder automatically.
@@ -47,19 +47,19 @@ Builds the DLLs and copies them into your My Winter Car game folder automaticall
 Right-click **My Winter Car** in Steam → **Properties** → **Launch Options**:
 
 
-WINEDLLOVERRIDES=winmm=n,b "/path/to/maximus-mwc-loader/launch_maximus.sh" %command%
+WINEDLLOVERRIDES=winmm=n,b "/path/to/maximus-mwc-loader/launch_maximum.sh" %command%
 
 # 4. Start the log daemon (once per login)
 
 bash
-bash maximus_daemon.sh &
+bash maximum_daemon.sh &
 
 
 Runs automatically at every login after install. To start now without logging out, run the above in any host terminal (`Ctrl+Alt+T`).
 
 # 5. Play
 
-Launch the game from Steam. A green terminal titled **✦ MAXIMUS LOG ✦** appears with live hook output.
+Launch the game from Steam. A green terminal titled **✦ MAXIMUM LOG ✦** appears with live hook output.
 
 
 
@@ -68,7 +68,7 @@ Launch the game from Steam. A green terminal titled **✦ MAXIMUS LOG ✦** appe
 bash
 python3 mwc_loader.py detect            # Show detected game path
 python3 mwc_loader.py build-native      # Build DLLs with mingw-w64
-python3 mwc_loader.py install-maximus   # Copy DLLs into game folder
+python3 mwc_loader.py install-maximum   # Copy DLLs into game folder
 python3 mwc_loader.py status            # Show loader state
 python3 mwc_loader.py enable-loader     # Re-enable after disabling
 python3 mwc_loader.py disable-loader    # Disable without uninstalling
@@ -88,18 +88,18 @@ After install, a `mods/` folder is created inside the game directory:
 
 ```
 My Winter Car/
-  winmm.dll          ← Maximus proxy
-  MaximusHost.dll    ← Maximus host
+  winmm.dll          ← Maximum proxy
+  MaximumHost.dll    ← Maximum host
   mods/
     MyMod.dll        ← drop your plugin here
     AnotherMod.dll
 ```
 
-Drop any `.dll` plugin into `mods/`. On every game launch, Maximus scans the folder and loads each DLL automatically. If the DLL exports a `MaximusModInit` function it will be called, then the result is written to `maximus.log`:
+Drop any `.dll` plugin into `mods/`. On every game launch, Maximum loader scans the folder and loads each DLL automatically. If the DLL exports a `MaximumModInit` function it will be called, then the result is written to `maximum.log`:
 
 ```
 [mods] loaded: MyMod.dll
-[mods] loaded (no MaximusModInit): SomeDll.dll
+[mods] loaded (no MaximumModInit): SomeDll.dll
 [mods] FAILED to load: BrokenMod.dll
 ```
 
@@ -111,7 +111,7 @@ A minimal plugin only needs one exported function:
 // mymod.c  —  compile with mingw-w64
 #include <windows.h>
 
-__declspec(dllexport) void MaximusModInit(void) {
+__declspec(dllexport) void MaximumModInit(void) {
     // your mod code runs here at game start
     OutputDebugStringA("[mymod] hello from MyMod!\n");
 }
@@ -124,10 +124,10 @@ x86_64-w64-mingw32-gcc -shared -o MyMod.dll mymod.c
 
 ## Adding core code
 
-To modify the host itself, edit `native/maximus_host.c` → `MaximusEntry()`, then rebuild:
+To modify the host itself, edit `native/maximum_host.c` → `MaximumEntry()`, then rebuild:
 
 bash
-./install_maximus.sh
+./install_maximum.sh
 
 
 
@@ -136,8 +136,8 @@ bash
 
  Problem | Fix |
  Game crashes on launch | Ensure `WINEDLLOVERRIDES=winmm=n,b` is in Launch Options 
- `maximus.log` not created | Delete any leftover `version.dll` / `winhttp.dll` from game folder 
- Log terminal doesn't open | Run `bash maximus_daemon.sh &` in a host terminal (not VS Code) 
+ `maximum.log` not created | Delete any leftover `version.dll` / `winhttp.dll` from game folder 
+ Log terminal doesn't open | Run `bash maximum_daemon.sh &` in a host terminal (not VS Code) 
  Build fails | Install `mingw-w64`: `sudo apt install mingw-w64` 
 
 

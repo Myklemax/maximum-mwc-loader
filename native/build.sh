@@ -1,19 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Build Maximus native DLLs using mingw-w64 (x86_64)
+# Build Maximum native DLLs using mingw-w64 (x86_64)
 # Requires: x86_64-w64-mingw32-gcc
 
 SCRIPT_DIR=$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 cd "$SCRIPT_DIR"
 
 PROXY_OUT=winmm.dll
-PROXY_SRC=winmm_maximus.c
+PROXY_SRC=winmm_maximum.c
 PROXY_DEF=winmm.def
 
-HOST_OUT=MaximusHost.dll
-HOST_SRC=maximus_host.c
-HOST_DEF=maximus_host.def
+HOST_OUT=MaximumHost.dll
+HOST_SRC=maximum_host.c
+HOST_DEF=maximum_host.def
 CC=${CC:-x86_64-w64-mingw32-gcc}
 CFLAGS="-O2 -Wall -Wextra -s"
 LDFLAGS="-shared"
