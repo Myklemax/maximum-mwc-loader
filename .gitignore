@@ -9,9 +9,13 @@ __pycache__/
 *.pyo
 
 # Runtime logs and debug files
+maximum.log
 maximus.log
 launch_debug.log
 no_terminal.txt
+
+# Distribution zip (folder is committed, zip is not)
+dist/*.zip
 
 # VS Code workspace-local settings (keep c_cpp_properties for IntelliSense)
 .vscode/settings.json
