@@ -14,7 +14,9 @@ A mod loader for **My Winter Car** on Linux + Steam (Proton).
 | `launch_maximum.sh` | Steam launch wrapper (set in Steam) |
 | `maximum_daemon.sh` | Background daemon — auto-opens the log terminal |
 | `mwc_loader.py` | Loader helper (used by the scripts above) |
-| `mods/` | Drop your `.dll` plugin mods here |
+| `mods/` | Bundled mods — loaded automatically on game start |
+| `mods/TerryDavis.dll` | Tribute mod — prints Terry A. Davis portrait + quotes in the log |
+| `mods/TimeTemp.dll` | Logs current system time every 5 seconds |
 
 ---
 

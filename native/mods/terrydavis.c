@@ -21,21 +21,21 @@ static void mod_log(const char *msg) {
 
 // ── Terry quotes ─────────────────────────────────────────────────────────────
 static const char *quotes[] = {
-    "[Terry] It's trivial. It's a Commodore 64 in a shoebox. U KNOW THAT RIGHT?",
+    "[Terry] It's trivial. It's a Commodore 64 in a shoebox. U KNOW THAT RIGHT? if not your fucking retarded",
     "[Terry] God said 640x480 16 color. I think that sounds beautiful.",
     "[Terry] I am the smartest programmer who has ever lived.",
-    "[Terry] The compiler doesn't care about your feelings.",
+    "[Terry] The compiler doesn't care about your feelings retard.",
     "[Terry] TempleOS is the Third Temple, and I built it.",
     "[Terry] An idiot admires complexity, a genius admires simplicity.",
     "[Terry] I talk to God every day. He gives me good ideas.",
     "[Terry] HolyC is better than C. God told me so.",
-    "[Terry] I wrote a compiler, an OS, and a game. What did YOU do today?",
+    "[Terry] I wrote a compiler, an OS, and a game. What did YOU do today retard?",
     "[Terry] The government put a man on the moon but they cant stop ME.",
     "[Terry] 640x480 is perfect resolution. God said so. I agree.",
     "[Terry] Ring 0. I live in Ring 0. Do you?",
     "[Terry] I started programming when I was 5. FIVE.",
     "[Terry] This car is a vehicle of God. Drive with purpose.",
-    "[Terry] Temple of the Lord runs at 60fps. On a Pentium.",
+    "[Terry] fuck you retard, use templeOS.",
 };
 
 #define NUM_QUOTES (sizeof(quotes) / sizeof(quotes[0]))
@@ -45,11 +45,40 @@ static DWORD WINAPI terry_thread(LPVOID ctx) {
     (void)ctx;
     DWORD idx = 0;
 
-    // Opening banner
-    mod_log("[Terry] ───────────────────────────────────────");
+    // Portrait of Terry A. Davis
+    mod_log("[Terry]              =  #+*=#%%%%%%%%%%%%                          ");
+    mod_log("[Terry]              =#*%%%%%*::=-=*%%%%%                          ");
+    mod_log("[Terry]              ##%%%.......:::--*-%%                         ");
+    mod_log("[Terry]              %*#.. .  ....:::--%*#-                        ");
+    mod_log("[Terry]              %#..  ...  .+* :::-++--                       ");
+    mod_log("[Terry]               %:......:=@@@@%..:-==.:                      ");
+    mod_log("[Terry]                #:..:.:*%@@@%....:-=-:%                     ");
+    mod_log("[Terry]                 #+#%@%::::. .....::==%#%##                 ");
+    mod_log("[Terry]                  %%@@@+.::-. ...:.::==*%#==*               ");
+    mod_log("[Terry]                   %@::.. ..:....::..-==+-+***+=#*==#**:++**");
+    mod_log("[Terry]                      -..+:.......:::=-====+#-++==***:*=++**-++");
+    mod_log("[Terry]                        :.::.::...::-=---:#*#=*+*+**=+***-***++**");
+    mod_log("[Terry]                        %-.:.::::..-*----*++*#***+==-:--:.-=*++-++");
+    mod_log("[Terry]                       **+#=-:... :#==--:+++:*-:++++=+*++=++++-:***+");
+    mod_log("[Terry]                      +#*-**%%:-=+@#--::*=++-*+-*+****+*==**=:-+*+*+*");
+    mod_log("[Terry]                    #+++**++*#*@==*=-:.+%%=+#**-+-=+-=-=:--+=-+*=**=+");
+    mod_log("[Terry]                   =+*##+******=+**=+-+**==+=+**==+=++**=**-***#*+-*+");
+    mod_log("[Terry]                 *#*++#*+=++*##+*=**=***++*#*+*+*=*===+***=++***-==**");
+    mod_log("[Terry]                *+*#+##++*###*+*#*-*+=-==*+++-=----::::++*++*:*==*#**");
+    mod_log("[Terry]               --=+%%##+--*# +#**+=*#*=+=+**=++++#**++==+****.++=***-");
+    mod_log("[Terry]              ---=++#%#*##*  +**##.***=+++#*++***#+*+*+#*#+*:=+****-=");
+    mod_log("[Terry]              -:--+*# %##%    *%##++==:=*===+--:+***-+*#*=#+++*=*+*=*");
+    mod_log("[Terry]       -::::---::-=*#         +#*++##*+++#++#+*#*##*=++-=##+#+**+:=-=");
+    mod_log("[Terry]      :::.::::::::=+#++++     *#**%-==:=##+*+*+*##****###%*++**++%#*#");
+    mod_log("[Terry]     :::::.:::--:::-=#==+++++++*#*%###+*##-*:-+*+--==+*###%      ****");
+    mod_log("[Terry]     ---:-:::-:---::-=*==+=++++##+%###+#+***+*#%##**++=####        #%");
+    mod_log("[Terry]     -----::+=-=+-::::-++===+=+##%##%#++**+*#*#+=+***#%*#%%          ");
+    mod_log("[Terry]    -==-==-=*=**+=-:.::-:-*===*%%%*#%#*#%*%##*##**+==*=*%#%          ");
+    mod_log("[Terry] ");
     mod_log("[Terry]  TERRY A. DAVIS  (1969 - 2018)");
-    mod_log("[Terry]  Creator of TempleOS  |  Top 1% IQ");
-    mod_log("[Terry] ───────────────────────────────────────");
+    mod_log("[Terry]  Creator of TempleOS  |  Genius  |  Top 1% IQ");
+    mod_log("[Terry]  'God is in the terminal.'");
+    mod_log("[Terry] ");
 
     Sleep(4000);
 
