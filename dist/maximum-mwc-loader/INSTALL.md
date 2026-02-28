@@ -36,61 +36,20 @@ _(Only needed on a fresh PC — most Linux desktops already have everything.)_
 
 ---
 
-## Step 1 — Copy this folder somewhere permanent
+## Quick install (3 steps)
 
-Move or copy `maximum-mwc-loader/` to a permanent location.
-**Do not delete it after installing** — Steam needs to reach `launch_maximum.sh` every time you play.
+1) Put this folder somewhere you keep games/mods (example: `~/maximum-mwc-loader`)
+2) Open a terminal **inside the folder** and run:
+  ```bash
+  bash install_maximum.sh
+  ```
+  It installs the DLLs, creates `mods/`, sets up the log daemon, and prints the Steam Launch Options line.
+3) In Steam → My Winter Car → Properties → Launch Options, paste the printed line (it looks like this, with your path):
+  ```
+  WINEDLLOVERRIDES=winmm=n,b "/home/you/maximum-mwc-loader/launch_maximum.sh" %command%
+  ```
 
-Good locations:
-```
-~/maximum-mwc-loader/
-~/Games/maximum-mwc-loader/
-```
-
-Example:
-```bash
-cp -r maximum-mwc-loader ~/maximum-mwc-loader
-cd ~/maximum-mwc-loader
-```
-
----
-
-## Step 2 — Run the installer
-
-Open a terminal inside the folder and run:
-
-```bash
-bash install_maximum.sh
-```
-
-This will:
-1. Auto-detect your My Winter Car game folder
-2. Copy `winmm.dll` and `MaximumHost.dll` into the game folder
-3. Create the `mods/` folder inside the game directory
-4. Install the log daemon to start automatically at login
-5. Print your Steam Launch Options
-
----
-
-## Step 3 — Set Steam Launch Options
-
-1. Open **Steam**
-2. Right-click **My Winter Car** → **Properties** → **Launch Options**
-3. Paste the line printed by the installer. It looks like:
-
-```
-WINEDLLOVERRIDES=winmm=n,b "/home/YOUR_NAME/maximum-mwc-loader/launch_maximum.sh" %command%
-```
-
-> Replace the path with wherever **you** put the folder in Step 1.
-
----
-
-## Step 4 — Play
-
-Launch **My Winter Car** from Steam as normal.
-
-A green terminal titled **✦ MAXIMUM LOG ✦** will pop up automatically showing live output from the mod loader.
+Then launch the game. A green terminal **✦ MAXIMUM LOG ✦** will pop up automatically.
 
 ---
 
