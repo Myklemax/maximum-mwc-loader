@@ -49,7 +49,7 @@ static DWORD WINAPI terry_thread(LPVOID ctx) {
     mod_log("[Terry]              =  #+*=#%%%%%%%%%%%%                          ");
     mod_log("[Terry]              =#*%%%%%*::=-=*%%%%%                          ");
     mod_log("[Terry]              ##%%%.......:::--*-%%                         ");
-    mod_log("[Terry]              %*#.. .  ....:::--%*#-                        ");
+    mod_log("[Terry] terry, davis  %*#.. .  ....:::--%*#-                        ");
     mod_log("[Terry]              %#..  ...  .+* :::-++--                       ");
     mod_log("[Terry]               %:......:=@@@@%..:-==.:                      ");
     mod_log("[Terry]                #:..:.:*%@@@%....:-=-:%                     ");

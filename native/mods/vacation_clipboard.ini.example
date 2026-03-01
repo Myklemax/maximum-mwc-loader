@@ -1,0 +1,16 @@
+# Vacation clipboard mod config (copy to game folder as vacation_clipboard.ini)
+# Default names are based on discovered symbols in My Winter Car binaries.
+
+paper_object=AllClipboard
+number_object=NoClipboard
+
+buy_trigger_file=vacation_buy_ticket.trigger
+call_trigger_file=vacation_call_number.trigger
+
+# Runtime auto-detection of clipboard object names
+autodetect_trigger_file=vacation_autodetect.trigger
+auto_detect_objects=1
+
+# Safety: Unity object calls from native worker threads can crash.
+# Keep this 0 unless you are actively testing and accept crash risk.
+enable_unity_object_swap=0

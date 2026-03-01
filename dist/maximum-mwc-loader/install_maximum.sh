@@ -83,26 +83,23 @@ if [[ ! -d "$GAME_PATH" ]]; then
 fi
 
 log "target game path: $GAME_PATH"
-
-if ! command -v x86_64-w64-mingw32-gcc >/dev/null 2>&1; then
-  if [[ -x "/var/run/host/usr/bin/x86_64-w64-mingw32-gcc" ]]; then
-    export CC="/var/run/host/usr/bin/x86_64-w64-mingw32-gcc"
-  elif [[ -x "/var/run/host/usr/bin/x86_64-w64-mingw32-gcc-win32" ]]; then
-    export CC="/var/run/host/usr/bin/x86_64-w64-mingw32-gcc-win32"
-  elif [[ -x "/usr/bin/x86_64-w64-mingw32-gcc-win32" ]]; then
-    export CC="/usr/bin/x86_64-w64-mingw32-gcc-win32"
-  else
-    err "error: mingw-w64 compiler missing"
-    warn "install on Debian/Ubuntu: sudo apt install mingw-w64"
-    warn "if using Flatpak VS Code, run this script from your host terminal"
-    exit 1
-  fi
+# Copy prebuilt binaries from this folder
+WINMM="$ROOT_DIR/winmm.dll"
+HOST="$ROOT_DIR/MaximumHost.dll"
+if [[ ! -f "$WINMM" || ! -f "$HOST" ]]; then
+  err "error: packaged binaries missing (winmm.dll or MaximumHost.dll)"
+  exit 1
 fi
 
-python3 mwc_loader.py setup --game-path "$GAME_PATH" --no-run
+cp -f "$WINMM" "$GAME_PATH/winmm.dll"
+cp -f "$HOST" "$GAME_PATH/MaximumHost.dll"
 
-# Create mods folder in game directory
+# Copy managed loader(s)
 mkdir -p "$GAME_PATH/mods"
+for dll in "$ROOT_DIR"/mods/*.dll; do
+  [[ -f "$dll" ]] || continue
+  cp -f "$dll" "$GAME_PATH/mods/"
+done
 log "mods folder ready → $GAME_PATH/mods"
 
 # Install autostart entry for the log daemon

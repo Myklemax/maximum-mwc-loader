@@ -1,0 +1,13 @@
+# Trigger files (drop these in your game root to fire events)
+plant_trigger_file=weed_plant.trigger
+water_trigger_file=weed_water.trigger
+advance_trigger_file=weed_advance.trigger
+harvest_trigger_file=weed_harvest.trigger
+sell_trigger_file=weed_sell.trigger
+
+# Farming balance
+plants_per_batch=4
+max_growth_stage=3
+min_buds_per_plant=2
+max_buds_per_plant=4
+sell_price_per_bud_mk=120

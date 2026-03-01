@@ -1,150 +1,93 @@
 # Maximum — MWC Loader
 
-A mod loader  hook framework for My Winter Car on Linux Steam, + Proton
+Mod loader for **My Winter Car** on Linux + Steam (Proton). Ships prebuilt DLLs; no build step required.
 
+---
 
+## Requirements
 
-# How it works
+- Linux (Steam native or Snap)
+- Proton (auto-detected)
+- Python 3 — `python3 --version`
+- gnome-terminal — `gnome-terminal --version`
 
-Steam launches game
-launch_maximum.sh (Steam Launch Options wrapper)
-game loads winmm.dll (our proxy, from game folder)
-winmm_maximum.c: DllMain fires, spawns thread
-loads MaximumHost.dll
-calls MaximumEntry() ← put mod code here
-writes maximum.log
-maximum_daemon.sh detects log
-opens ✦ MAXIMUM LOG ✦ terminal
+If something is missing, run the helper once:
 
+```bash
+bash setup_requirements.sh
+```
 
+---
 
+## Quick install
 
-# Requirements
+1) Place this folder anywhere (e.g., `~/maximum-mwc-loader`).
+2) In a terminal in the folder, run:
 
-Linux with Steam (native or snap)
-Proton (auto-detected from Steam library)
-Python 3
-mingw-w64 cross compiler
+```bash
+bash install_maximum.sh
+```
 
-bash
-sudo apt install mingw-w64       # Ubuntu / Debian / Mint
-sudo pacman -S mingw-w64-gcc     # Arch
+It copies the packaged `winmm.dll`, `MaximumHost.dll`, and `mods/MSCLoader.dll` into the game, creates `mods/`, installs the log daemon, and prints the Steam Launch Options.
 
+3) In Steam → My Winter Car → Properties → Launch Options, paste the printed line (your path will be filled in):
 
+```
+WINEDLLOVERRIDES=winmm=n,b "/path/to/maximum-mwc-loader/launch_maximum.sh" %command%
+```
 
+Then launch the game. A green terminal titled **✦ MAXIMUM LOG ✦** opens with live output.
 
+---
 
-## 2. Install
+## Installing mods
 
-bash
-./install_maximum.sh
-
-
-Builds the DLLs and copies them into your My Winter Car game folder automatically.
-
-# 3. Set Steam Launch Options
-
-Right-click **My Winter Car** in Steam → **Properties** → **Launch Options**:
-
-
-WINEDLLOVERRIDES=winmm=n,b "/path/to/maximus-mwc-loader/launch_maximum.sh" %command%
-
-# 4. Start the log daemon (once per login)
-
-bash
-bash maximum_daemon.sh &
-
-
-Runs automatically at every login after install. To start now without logging out, run the above in any host terminal (`Ctrl+Alt+T`).
-
-# 5. Play
-
-Launch the game from Steam. A green terminal titled **✦ MAXIMUM LOG ✦** appears with live hook output.
-
-
-
-# Commands
-
-bash
-python3 mwc_loader.py detect            # Show detected game path
-python3 mwc_loader.py build-native      # Build DLLs with mingw-w64
-python3 mwc_loader.py install-maximum   # Copy DLLs into game folder
-python3 mwc_loader.py status            # Show loader state
-python3 mwc_loader.py enable-loader     # Re-enable after disabling
-python3 mwc_loader.py disable-loader    # Disable without uninstalling
-python3 mwc_loader.py watch-log         # Open live log viewer manually
-
-
-All commands accept `--game-path "/path/to/My Winter Car"` to override auto-detection.
-
-
-
-
-
-
-## Mods folder
-
-After install, a `mods/` folder is created inside the game directory:
+Put mod DLLs into the game `mods/` folder:
 
 ```
 My Winter Car/
-  winmm.dll          ← Maximum proxy
-  MaximumHost.dll    ← Maximum host
+  winmm.dll
+  MaximumHost.dll
   mods/
-    MyMod.dll        ← drop your plugin here
-    AnotherMod.dll
+    MSCLoader.dll        ← managed loader shim (installed automatically)
+    MyNativeMod.dll      ← native plugin (exports MaximumModInit)
+    MyManagedMod.dll     ← managed mod (e.g., Second Kettle)
 ```
 
-Drop any `.dll` plugin into `mods/`. On every game launch, Maximum loader scans the folder and loads each DLL automatically. If the DLL exports a `MaximumModInit` function it will be called, then the result is written to `maximum.log`:
+- Native mods: loaded directly by MaximumHost; `MaximumModInit` is called if present.
+- Managed mods: loaded by MSCLoader (included). Drop the managed mod DLL next to `MSCLoader.dll`.
 
-```
-[mods] loaded: MyMod.dll
-[mods] loaded (no MaximumModInit): SomeDll.dll
-[mods] FAILED to load: BrokenMod.dll
-```
+No reinstall is needed after adding mods—just relaunch the game.
 
-### Writing a plugin
+---
 
-A minimal plugin only needs one exported function:
-
-```c
-// mymod.c  —  compile with mingw-w64
-#include <windows.h>
-
-__declspec(dllexport) void MaximumModInit(void) {
-    // your mod code runs here at game start
-    OutputDebugStringA("[mymod] hello from MyMod!\n");
-}
-```
+## Useful commands
 
 ```bash
-x86_64-w64-mingw32-gcc -shared -o MyMod.dll mymod.c
-# copy MyMod.dll into  "My Winter Car/mods/"
+python3 mwc_loader.py status           # Show install state and game path
+python3 mwc_loader.py enable-loader    # Re-enable after disabling
+python3 mwc_loader.py disable-loader   # Temporarily disable (renames DLLs)
+python3 mwc_loader.py watch-log        # Open the live log viewer manually
 ```
 
-## Adding core code
+All commands accept `--game-path "/path/to/My Winter Car"` if auto-detect fails.
 
-To modify the host itself, edit `native/maximum_host.c` → `MaximumEntry()`, then rebuild:
-
-bash
-./install_maximum.sh
-
-
-
+---
 
 ## Troubleshooting
 
- Problem | Fix |
- Game crashes on launch | Ensure `WINEDLLOVERRIDES=winmm=n,b` is in Launch Options 
- `maximum.log` not created | Delete any leftover `version.dll` / `winhttp.dll` from game folder 
- Log terminal doesn't open | Run `bash maximum_daemon.sh &` in a host terminal (not VS Code) 
- Build fails | Install `mingw-w64`: `sudo apt install mingw-w64` 
+- Game crashes or no hooks: ensure `WINEDLLOVERRIDES=winmm=n,b` is in Launch Options.
+- No `maximum.log`: remove any stray `version.dll` / `winhttp.dll` in the game folder.
+- Log terminal missing: run `bash maximum_daemon.sh &` in a normal terminal.
+- Installer cannot find the game: `bash install_maximum.sh --game-path "/path/to/My Winter Car"`.
 
+---
 
+## Uninstall
 
+```bash
+python3 mwc_loader.py disable-loader   # removes the DLLs from the game folder
+rm ~/.config/autostart/maximum-daemon.desktop
+```
 
-
-# License
-
-Skibdi toilet
-Max AM
+Clear the Steam Launch Options and delete this folder if desired.

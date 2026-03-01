@@ -1,0 +1,13 @@
+One-line install (terminal)
+==========================
+
+cd "/home/max/Desktop/Maximus (MWC LOADER)/dist" && unzip -o maximum-mwc-loader.zip && cd maximum-mwc-loader && chmod +x install_maximum.sh && ./install_maximum.sh
+
+That’s it. The script copies winmm.dll, MaximumHost.dll, and MSCLoader.dll into your My Winter Car folder. Launch the game normally. Put managed mods in mods/ alongside MSCLoader.dll. If you don’t want native mods in the managed scan, keep them in mods/unfinished/.
+
+Launch options
+--------------
+- To run Maximum: WINEDLLOVERRIDES=winmm=n,b "/home/max/Desktop/Maximus (MWC LOADER)/dist/maximum-mwc-loader/launch_maximum.sh" %command%
+- To restore original: clear launch options (leave empty).
+
+
